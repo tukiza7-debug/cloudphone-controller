@@ -2,7 +2,7 @@ package com.cloudcontroller.app.ui
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.layout.Alignment
+import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
