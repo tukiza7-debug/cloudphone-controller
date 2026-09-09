@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.pointerInteropFilter
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import com.cloudcontroller.app.ui.theme.ButtonFace
 import com.cloudcontroller.app.ui.theme.ButtonFacePressed
 import com.cloudcontroller.app.ui.theme.TextPrimary
