@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 
 /**
  * Thin wrapper around SharedPreferences for persisting the server connection
- * details (IP, port, auth token) so the user doesn't need to re-enter them
- * every time they open the app.
+ * details (IP, port, auth token) and per-control custom layout (position +
+ * scale) so the user doesn't need to re-enter/re-arrange them every time.
  */
 class SettingsManager(context: Context) {
 
@@ -25,13 +25,43 @@ class SettingsManager(context: Context) {
         get() = prefs.getString(KEY_TOKEN, "") ?: ""
         set(value) = prefs.edit().putString(KEY_TOKEN, value).apply()
 
+    // When true, connect over wss:// (TLS) â€” required for tunnels such as
+    // Cloudflare Tunnel / cloudflared, which terminate TLS for you and only
+    // ever expose a hostname on port 443, never a raw LAN IP.
     var useTls: Boolean
-        get() = prefs.getBoolean(KEY_TLS, false)
+        get() = prefs.getBoolean(KEY_TLS, DEFAULT_TLS)
         set(value) = prefs.edit().putBoolean(KEY_TLS, value).apply()
 
     fun buildWebSocketUrl(): String {
         val scheme = if (useTls) "wss" else "ws"
-        return "$scheme://${serverIp.trim()}:$serverPort"
+        val host = serverIp.trim()
+        return "$scheme://$host:$serverPort"
+    }
+
+    /** Custom on-screen layout (offset in px + scale) for a given control key. */
+    fun getLayout(key: String): Triple<Float, Float, Float> {
+        val x = prefs.getFloat("layout_${key}_x", 0f)
+        val y = prefs.getFloat("layout_${key}_y", 0f)
+        val scale = prefs.getFloat("layout_${key}_scale", 1f)
+        return Triple(x, y, scale)
+    }
+
+    fun setLayout(key: String, x: Float, y: Float, scale: Float) {
+        prefs.edit()
+            .putFloat("layout_${key}_x", x)
+            .putFloat("layout_${key}_y", y)
+            .putFloat("layout_${key}_scale", scale.coerceIn(0.5f, 2.0f))
+            .apply()
+    }
+
+    fun resetLayout() {
+        val editor = prefs.edit()
+        for (k in LAYOUT_KEYS) {
+            editor.remove("layout_${k}_x")
+            editor.remove("layout_${k}_y")
+            editor.remove("layout_${k}_scale")
+        }
+        editor.apply()
     }
 
     companion object {
@@ -43,5 +73,8 @@ class SettingsManager(context: Context) {
 
         private const val DEFAULT_IP = "192.168.1.100"
         private const val DEFAULT_PORT = 8765
+        private const val DEFAULT_TLS = false
+
+        val LAYOUT_KEYS = listOf("dpad", "face", "stick", "l1", "r1", "start", "select")
     }
 }
