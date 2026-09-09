@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CloudPhone Controller</string>
+    <string name="settings_title">Connection Settings</string>
+    <string name="settings_ip">Server IP</string>
+    <string name="settings_port">Port</string>
+    <string name="settings_token">Auth Token</string>
+    <string name="settings_save">Save</string>
+    <string name="settings_cancel">Cancel</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_error">Error</string>
+</resources>

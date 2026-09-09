@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="console_black">#FF0A0A0A</color>
+    <color name="console_surface">#FF1A1A1A</color>
+    <color name="accent_green">#FF34D058</color>
+    <color name="accent_red">#FFE5484D</color>
+    <color name="accent_amber">#FFF0B429</color>
+    <color name="button_face">#FF2A2A2A</color>
+    <color name="button_face_pressed">#FF3D3D3D</color>
+    <color name="text_primary">#FFEDEDED</color>
+    <color name="text_secondary">#FF9A9A9A</color>
+</resources>

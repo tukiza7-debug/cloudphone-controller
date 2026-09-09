@@ -1,0 +1,21 @@
+{
+  "token": "tukiza-2211",
+  "port": 8765,
+  "adb_serial": "",
+  "joystick_swipe_radius": 150,
+  "joystick_swipe_duration_ms": 80,
+  "button_keycodes": {
+    "btn_a": 96,
+    "btn_b": 97,
+    "btn_x": 99,
+    "btn_y": 100,
+    "dpad_up": 19,
+    "dpad_down": 20,
+    "dpad_left": 21,
+    "dpad_right": 22,
+    "l1": 102,
+    "r1": 103,
+    "start": 108,
+    "select": 109
+  }
+}
