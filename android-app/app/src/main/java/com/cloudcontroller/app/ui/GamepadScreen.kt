@@ -28,7 +28,7 @@ fun GamepadScreen(settingsManager: SettingsManager) {
 
     // Recreated whenever ip/port/token changes (tracked via this key string).
     var connectionKey by remember {
-        mutableStateOf("${settingsManager.serverIp}:${settingsManager.serverPort}:${settingsManager.authToken}")
+        mutableStateOf("${settingsManager.serverIp}:${settingsManager.serverPort}:${settingsManager.authToken}:${settingsManager.useTls}")
     }
 
     val socket = remember(connectionKey) {
@@ -132,12 +132,14 @@ fun GamepadScreen(settingsManager: SettingsManager) {
             initialIp = settingsManager.serverIp,
             initialPort = settingsManager.serverPort,
             initialToken = settingsManager.authToken,
+            initialUseTls = settingsManager.useTls,
             onDismiss = { showSettings = false },
-            onSave = { ip, port, token ->
+            onSave = { ip, port, token, useTls ->
                 settingsManager.serverIp = ip
                 settingsManager.serverPort = port
                 settingsManager.authToken = token
-                connectionKey = "$ip:$port:$token"
+                settingsManager.useTls = useTls
+                connectionKey = "$ip:$port:$token:$useTls"
                 showSettings = false
             }
         )

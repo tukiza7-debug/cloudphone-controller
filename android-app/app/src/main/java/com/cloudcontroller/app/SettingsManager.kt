@@ -25,13 +25,21 @@ class SettingsManager(context: Context) {
         get() = prefs.getString(KEY_TOKEN, "") ?: ""
         set(value) = prefs.edit().putString(KEY_TOKEN, value).apply()
 
-    fun buildWebSocketUrl(): String = "ws://$serverIp:$serverPort"
+    var useTls: Boolean
+        get() = prefs.getBoolean(KEY_TLS, false)
+        set(value) = prefs.edit().putBoolean(KEY_TLS, value).apply()
+
+    fun buildWebSocketUrl(): String {
+        val scheme = if (useTls) "wss" else "ws"
+        return "$scheme://${serverIp.trim()}:$serverPort"
+    }
 
     companion object {
         private const val PREFS_NAME = "cloudphone_controller_prefs"
         private const val KEY_IP = "server_ip"
         private const val KEY_PORT = "server_port"
         private const val KEY_TOKEN = "auth_token"
+        private const val KEY_TLS = "use_tls"
 
         private const val DEFAULT_IP = "192.168.1.100"
         private const val DEFAULT_PORT = 8765

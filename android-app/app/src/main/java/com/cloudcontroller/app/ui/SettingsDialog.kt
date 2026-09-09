@@ -1,10 +1,14 @@
 package com.cloudcontroller.app.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.Switch
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.Switch
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,12 +22,14 @@ fun SettingsDialog(
     initialIp: String,
     initialPort: Int,
     initialToken: String,
+    initialUseTls: Boolean = false,
     onDismiss: () -> Unit,
-    onSave: (ip: String, port: Int, token: String) -> Unit
+    onSave: (ip: String, port: Int, token: String, useTls: Boolean) -> Unit
 ) {
     var ip by remember { mutableStateOf(initialIp) }
     var portText by remember { mutableStateOf(initialPort.toString()) }
     var token by remember { mutableStateOf(initialToken) }
+    var useTls by remember { mutableStateOf(initialUseTls) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -45,14 +51,19 @@ fun SettingsDialog(
                 TextField(
                     value = token,
                     onValueChange = { token = it },
-                    label = { Text("Auth Token") }
+                    label = { Text("Auth Token") },
+                    modifier = androidx.compose.ui.Modifier.padding(bottom = 8.dp)
                 )
+                Row {
+                    Text("Secure connection (wss)")
+                    Switch(checked = useTls, onCheckedChange = { useTls = it })
+                }
             }
         },
         confirmButton = {
             TextButton(onClick = {
                 val port = portText.toIntOrNull() ?: initialPort
-                onSave(ip.trim(), port, token)
+                onSave(ip.trim(), port, token, useTls)
             }) {
                 Text("Save")
             }
